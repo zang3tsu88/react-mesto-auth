@@ -1,0 +1,74 @@
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+} */
+
+/* Vendor */
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts.css);
+
+/* Roots */
+/* @import url(./blocks/root/root.css); */
+@import url(./blocks/page/page.css);
+
+/* Header */
+@import url(./blocks/header/header.css);
+@import url(./blocks/header/__logo/header__logo.css);
+
+/* Profile */
+@import url(./blocks/profile/profile.css);
+@import url(./blocks/profile/__avatar-btn/profile__avatar-btn.css);
+@import url(./blocks/profile/__avatar/profile__avatar.css);
+@import url(./blocks/profile/__user-info/profile__user-info.css);
+@import url(./blocks/profile/__user-name/profile__user-name.css);
+@import url(./blocks/profile/__edit-btn/profile__edit-btn.css);
+@import url(./blocks/profile/__user-occupation/profile__user-occupation.css);
+@import url(./blocks/profile/__btn-add-img/profile__btn-add-img.css);
+
+/* Cards */
+@import url(./blocks/cards/cards.css);
+@import url(./blocks/cards/__list/cards__list.css);
+@import url(./blocks/cards/__item/cards__item.css);
+@import url(./blocks/cards/__image/cards__image.css);
+@import url(./blocks/cards/__description/cards__description.css);
+@import url(./blocks/cards/__title/cards__title.css);
+@import url(./blocks/cards/__like/cards__like.css);
+@import url(./blocks/cards/__like/_active/cards__like_active.css);
+@import url(./blocks/cards/__counter/cards__counter.css);
+@import url(./blocks/cards/__trash/cards__trash.css);
+
+/* Footer */
+@import url(./blocks/footer/footer.css);
+@import url(./blocks/footer/__copyright/footer__copyright.css);
+
+/* Pop-up */
+@import url(./blocks/popup/popup.css);
+@import url(./blocks/popup/_active/popup_active.css);
+@import url(./blocks/popup/__window/popup__window.css);
+@import url(./blocks/popup/__close-btn/popup__close-btn.css);
+@import url(./blocks/popup/__title/popup__title.css);
+@import url(./blocks/popup/__form/popup__form.css);
+@import url(./blocks/popup/__input/popup__input.css);
+/* тут я что-то запутался, ведь не надо создавать папку _error?)) */
+@import url(./blocks/popup/__input/_type/popup__input_type_error.css);
+@import url(./blocks/popup/__input-error-msg/popup__input-error-msg.css);
+@import url(./blocks/popup/__input-error-msg/_active/popup__input-error-msg_active.css);
+@import url(./blocks/popup/__submit-btn/popup__submit-btn.css);
+@import url(./blocks/popup/__submit-btn/_inactive/popup__submit-btn_inactive.css);
+
+/* Image Pop-up */
+@import url(./blocks/popup/_type/popup_type_open-image.css);
+@import url(./blocks/popup/__image-figure/popup__image-figure.css);
+@import url(./blocks/popup/__image/popup__image.css);
+@import url(./blocks/popup/__image-title/popup__image-title.css);
