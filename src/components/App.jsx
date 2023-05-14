@@ -11,6 +11,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
+import Register from "./Register";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -186,20 +187,26 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
+  const isLoggedIn = false;
+
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDeleteConfirm={handleCardDeleteConfirm}
-          cards={cards}
-        />
-        <Footer />
+        {isLoggedIn && (
+          <Main
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDeleteConfirm={handleCardDeleteConfirm}
+            cards={cards}
+          />
+        )}
+
+        <Register buttonText={"Зарегистрироваться"} />
+        {isLoggedIn && <Footer />}
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -207,27 +214,23 @@ function App() {
           onUpdateUser={handleUpdateUser}
           isLoading={isLoading}
         />
-
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
           isLoading={isLoading}
         />
-
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
           isLoading={isLoading}
         />
-
         <ImagePopup
           isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
           card={selectedCard}
         />
-
         <ConfirmationPopup
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}

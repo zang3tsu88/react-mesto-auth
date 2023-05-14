@@ -24,6 +24,7 @@
 
 /* Header */
 @import url(./blocks/header/header.css);
+@import url(./blocks/header/__entry/header__entry.css);
 @import url(./blocks/header/__logo/header__logo.css);
 
 /* Profile */
@@ -72,3 +73,11 @@
 @import url(./blocks/popup/__image-figure/popup__image-figure.css);
 @import url(./blocks/popup/__image/popup__image.css);
 @import url(./blocks/popup/__image-title/popup__image-title.css);
+
+/* Entry */
+@import url(./blocks/entry/entry.css);
+@import url(./blocks/entry/__title/entry__title.css);
+@import url(./blocks/entry/__form/entry__form.css);
+@import url(./blocks/entry/__input/entry__input.css);
+@import url(./blocks/entry/__submit-btn/entry__submit-btn.css);
+@import url(./blocks/entry/__link/entry__link.css);
