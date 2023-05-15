@@ -12,6 +12,8 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
 import Register from "./Register";
+import Login from "./Login";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -31,6 +33,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
   useEffect(() => {
     api
@@ -106,6 +109,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmPopupOpen(false);
+    setIsInfoTooltipOpen(false);
   }
 
   function handleCardLike(card) {
@@ -206,6 +210,7 @@ function App() {
         )}
 
         <Register buttonText={"Зарегистрироваться"} />
+        {/* <Login buttonText={"Войти"} /> */}
         {isLoggedIn && <Footer />}
 
         <EditProfilePopup
@@ -220,17 +225,14 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
           isLoading={isLoading}
         />
+
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
           isLoading={isLoading}
         />
-        <ImagePopup
-          isOpen={isImagePopupOpen}
-          onClose={closeAllPopups}
-          card={selectedCard}
-        />
+
         <ConfirmationPopup
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
@@ -238,6 +240,14 @@ function App() {
           onCardDelete={handleCardDelete}
           isLoading={isLoading}
         />
+
+        <ImagePopup
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+          card={selectedCard}
+        />
+
+        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
     </>
   );

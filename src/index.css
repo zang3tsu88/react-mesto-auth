@@ -81,3 +81,10 @@
 @import url(./blocks/entry/__input/entry__input.css);
 @import url(./blocks/entry/__submit-btn/entry__submit-btn.css);
 @import url(./blocks/entry/__link/entry__link.css);
+
+/* Tooltip */
+
+@import url(./blocks/popup/_type/popup_type_tooltip.css);
+@import url(./blocks/tooltip/tooltip.css);
+@import url(./blocks/tooltip/__image/tooltip__image.css);
+@import url(./blocks/tooltip/__text/tooltip__text.css);

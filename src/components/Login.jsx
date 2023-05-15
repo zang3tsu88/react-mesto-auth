@@ -3,7 +3,7 @@ import classNames from "classnames";
 function Login({ buttonText }) {
   return (
     <div className="entry">
-      <h2 className="entry__title">Войти</h2>
+      <h2 className="entry__title">Вход</h2>
       <form
         // onSubmit={onSubmit}
         className={"entry__form"}
