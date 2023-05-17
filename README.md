@@ -21,7 +21,7 @@ This is a 4th project from a [Yandex Practicum](https://practicum.yandex.ru/) we
 
 ### Links
 
-- Link to Live Site: [Github Pages](https://zang3tsu88.github.io/mesto-react/)
+- Link to Live Site: [Github Pages](https://zang3tsu88.github.io/react-mesto-auth/)
 
 ## My process
 
