@@ -7,6 +7,7 @@
   /* identical to box height, or 122% */
   text-align: right;
   color: #ffffff;
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {

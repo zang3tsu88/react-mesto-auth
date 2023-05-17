@@ -14,6 +14,9 @@ import ConfirmationPopup from "./ConfirmationPopup";
 import Register from "./Register";
 import Login from "./Login";
 import InfoTooltip from "./InfoTooltip";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import * as auth from "../utils/authApi";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -34,6 +37,10 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+  const [userData, setUserData] = useState({ email: "" });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [status, setStatus] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -67,7 +74,8 @@ function App() {
       isEditProfilePopupOpen ||
       isAddPlacePopupOpen ||
       isImagePopupOpen ||
-      isConfirmPopupOpen
+      isConfirmPopupOpen ||
+      isInfoTooltipOpen
     ) {
       document.addEventListener("keyup", closeOnEsc);
       document.addEventListener("click", closeOnOverlayClick);
@@ -82,9 +90,28 @@ function App() {
     isAddPlacePopupOpen,
     isImagePopupOpen,
     isConfirmPopupOpen,
+    isInfoTooltipOpen,
   ]);
   // да, массив я забыл. Только не совсем понял, вы это имели ввиду? "перечислить все состояния модальных окон"
-  // как-то много всего, неужели это необходимо? Может просто [] оставить, без проверки?
+  // как-то много всего, неужели это необходимо? Может просто [] пустой массив оставить?
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      auth
+        .getUserData(jwt)
+        .then((res) => {
+          if (res) {
+            setIsLoggedIn(true);
+            setUserData({ ...userData, email: res.data.email });
+            navigate("/", { replace: true });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -141,7 +168,6 @@ function App() {
         setCards((state) => state.filter((c) => c._id !== card._id));
         closeAllPopups();
       })
-      // .then(() => setIsLoading(false))
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
@@ -155,7 +181,6 @@ function App() {
         setCurrentUser(data);
         closeAllPopups();
       })
-      // .then(() => setIsLoading(false))
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
@@ -169,13 +194,9 @@ function App() {
         setCurrentUser(data);
         closeAllPopups();
       })
-      // .then(() => setIsLoading(false))
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
-
-  // не знаю, с изменением на finally, я теперь даже с slow 3g не успеваю заметить изменения кнопки.. только у удаления карточки.
-  // хотя, я понял почему надо на это поменять. Просто изначально мне казалось что при ошибки как раз должно зависнуть на сохранении и выдать ошибку. Это явно дает понять что проблема
 
   function handleAddPlaceSubmit(userCard) {
     setIsLoading(true);
@@ -186,31 +207,96 @@ function App() {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      // .then(() => setIsLoading(false))
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
 
-  const isLoggedIn = false;
+  // В планах зарефакторить authApi, сделать хедер под мобильную версию,
+  // Так что не бейте слишком строго) просто сроки горят.
+
+  function registerUser({ email, password }) {
+    auth
+      .register(email, password)
+      .then((res) => {
+        console.log(res); // CONSOLE LOG ============
+        setStatus(true);
+        setIsInfoTooltipOpen(true);
+        navigate("/sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+        setStatus(false);
+        setIsInfoTooltipOpen(true);
+      });
+  }
+
+  function loginUser({ email, password }) {
+    auth
+      .login(email, password)
+      .then((res) => {
+        console.log(res); // CONSOLE LOG ============
+        localStorage.setItem("jwt", res.token);
+        setUserData({ email });
+        setIsLoggedIn(true);
+        navigate("/"); // NAVIGATE ?
+      })
+      .catch((err) => {
+        console.log(err);
+        setStatus(false);
+        setIsInfoTooltipOpen(true);
+      });
+  }
+
+  function logoutUser() {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    setUserData({ email: "" });
+  }
 
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
-        {isLoggedIn && (
-          <Main
-            onEditAvatar={handleEditAvatarClick}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDeleteConfirm={handleCardDeleteConfirm}
-            cards={cards}
-          />
-        )}
+        <Header email={userData.email} logout={logoutUser} />
 
-        <Register buttonText={"Зарегистрироваться"} />
-        {/* <Login buttonText={"Войти"} /> */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute
+                element={Main}
+                onEditAvatar={handleEditAvatarClick}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDeleteConfirm={handleCardDeleteConfirm}
+                cards={cards}
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
+
+          <Route
+            path="/sign-in"
+            element={<Login loginUser={loginUser} buttonText={"Войти"} />}
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <Register
+                registerUser={registerUser}
+                buttonText={"Зарегистрироваться"}
+              />
+            }
+          />
+          <Route
+            path="*"
+            element={
+              isLoggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
+            }
+          />
+        </Routes>
+
         {isLoggedIn && <Footer />}
 
         <EditProfilePopup
@@ -247,7 +333,11 @@ function App() {
           card={selectedCard}
         />
 
-        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          onClose={closeAllPopups}
+          status={status}
+        />
       </CurrentUserContext.Provider>
     </>
   );

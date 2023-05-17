@@ -24,8 +24,11 @@
 
 /* Header */
 @import url(./blocks/header/header.css);
-@import url(./blocks/header/__entry/header__entry.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__entry/header__entry.css);
+@import url(./blocks/header/__entry/header__entry_logout.css);
+@import url(./blocks/header/__entry-containter/header__entry-containter.css);
+@import url(./blocks/header/__email/header__email.css);
 
 /* Profile */
 @import url(./blocks/profile/profile.css);
@@ -81,10 +84,10 @@
 @import url(./blocks/entry/__input/entry__input.css);
 @import url(./blocks/entry/__submit-btn/entry__submit-btn.css);
 @import url(./blocks/entry/__link/entry__link.css);
+@import url(./blocks/entry/__question/entry__question.css);
 
 /* Tooltip */
 
-@import url(./blocks/popup/_type/popup_type_tooltip.css);
 @import url(./blocks/tooltip/tooltip.css);
 @import url(./blocks/tooltip/__image/tooltip__image.css);
 @import url(./blocks/tooltip/__text/tooltip__text.css);

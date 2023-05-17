@@ -1,11 +1,32 @@
 import classNames from "classnames";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
-function Register({ buttonText }) {
+function Register({ registerUser, buttonText }) {
+  const [formValue, setFormValue] = useState({
+    email: "",
+    password: "",
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormValue({
+      ...formValue,
+      [name]: value,
+    });
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    registerUser(formValue);
+  }
+
   return (
     <div className="entry">
       <h2 className="entry__title">Регистрация</h2>
       <form
-        // onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         className={"entry__form"}
         name="register"
         method="POST"
@@ -16,12 +37,20 @@ function Register({ buttonText }) {
           type="email"
           name="email"
           placeholder="Email"
+          autoComplete="username"
+          required
+          value={formValue.email}
+          onChange={handleChange}
         />
         <input
           className="entry__input"
           type="password"
           name="password"
           placeholder="Пароль"
+          autoComplete="current-password"
+          required
+          value={formValue.password}
+          onChange={handleChange}
         />
         <button
           className={classNames("entry__submit-btn", {
@@ -34,9 +63,12 @@ function Register({ buttonText }) {
           {buttonText}
         </button>
       </form>
-      <a href="#" className="entry__link">
-        Уже зарегистрированы? Войти
-      </a>
+      <p className="entry__question">
+        Уже зарегистрированы?
+        <Link to="/sign-in" className="entry__link">
+          Войти
+        </Link>
+      </p>
     </div>
   );
 }

@@ -1,14 +1,16 @@
 import classNames from "classnames";
-import error from "../images/icon_error.svg";
-import success from "../images/icon_success.svg";
+import errorIcon from "../images/icon_error.svg";
+import successIcon from "../images/icon_success.svg";
 
-const isError = true;
+function InfoTooltip({ isOpen, onClose, status }) {
+  const statusIcon = status ? successIcon : errorIcon;
+  const statusMessage = status
+    ? "Вы успешно зарегистрировались!"
+    : "Что-то пошло не так! Попробуйте ещё раз.";
 
-function InfoTooltip(isOpen, onClose) {
-  let icon = isError ? error : success;
   return (
     <div
-      className={classNames("popup", "popup_type_tooltip", "popup_active", {
+      className={classNames("popup", {
         popup_active: isOpen,
       })}
     >
@@ -19,10 +21,12 @@ function InfoTooltip(isOpen, onClose) {
           type="button"
           aria-label="Закрыть попап"
         />
-        <img className="tooltip__image" src={icon} alt={icon} />
-        <p className="tooltip__text">
-          Что-то пошло не так! Попробуйте ещё раз.
-        </p>
+        <img
+          className="tooltip__image"
+          src={statusIcon}
+          alt={status ? "иконка успеха" : "иконка неудачи"}
+        />
+        <p className="tooltip__text">{statusMessage}</p>
       </div>
     </div>
   );

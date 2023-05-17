@@ -24,3 +24,7 @@ api
     closeAllPopups();
 
 }
+
+вернуть в package.json
+
+"homepage": "https://zang3tsu88.github.io/mesto-react-auth/",
